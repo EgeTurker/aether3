@@ -1,0 +1,41 @@
+<canvas id="canvas"></canvas>
+
+<p class="info">drag / scroll mouse to rotate / zoom</p>
+
+<script type="x-shader/x-vertex" id="vert-shader">
+	attribute vec3 color;
+	attribute vec2 age;
+
+	varying vec3 v_color;
+	varying vec2 v_age;
+
+	void main() {
+		vec4 mvPosition = modelViewMatrix * vec4(position, 1.);
+
+		v_color = color;
+		v_age = age;
+	
+		gl_PointSize = 80. * (80. / -mvPosition.z);
+		gl_Position = projectionMatrix * mvPosition;
+	}
+	
+</script>
+
+<script type="x-shader/x-fragment" id="frag-shader">
+	uniform sampler2D u_texture;
+
+	varying vec3 v_color;
+	varying vec2 v_age;
+
+	float fadeInOut(float t, float m) {
+		float h = .5 * m;
+
+		return abs(mod((t + h), m) - h) / h;
+	}	
+
+	void main() {
+		float alpha = fadeInOut(v_age.s, v_age.t);
+		
+		gl_FragColor = vec4(v_color, alpha) * texture2D(u_texture, gl_PointCoord);
+	}
+</script>
