@@ -1,0 +1,14 @@
+html, body {
+	background: black;
+	overflow: hidden;
+}
+
+.info {
+	background-color: rgba(80,80,80,.2);
+	bottom: 0;
+	color: white;
+	font-family: 'Roboto Mono', sans-serif;
+	font-size: .8rem;
+	padding: .5rem;
+	position: absolute;
+}
